@@ -1,5 +1,7 @@
 # API RESTful de Gerenciamento de Usuários - Segurança da Informação
 
+LUIS FELIPE FACHINI E MAX MAUL
+
 Este projeto implementa uma API RESTful para gerenciamento de usuários, com foco em segurança da informação. O projeto inclui duas versões no mesmo repositório:
 
 - **Versão 1.0**: Vulnerável a ataques comuns como SQL/NoSQL Injection, XSS e CSRF
