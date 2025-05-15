@@ -1,0 +1,36 @@
+{
+  "name": "projeto-n2-seguranca",
+  "version": "1.0.0",
+  "description": "API RESTful para N2 de Segurança da Informação - Vulnerabilidades em Aplicações Web",
+  "main": "app.js",
+  "scripts": {
+    "start": "node app.js",
+    "dev": "nodemon app.js"
+  },
+  "keywords": [
+    "api",
+    "restful",
+    "security",
+    "pentest"
+  ],
+  "author": "Seu nome",
+  "license": "ISC",
+  "dependencies": {
+    "bcrypt": "^5.1.1",
+    "cookie-parser": "^1.4.6",
+    "cors": "^2.8.5",
+    "dotenv": "^16.3.1",
+    "express": "^4.18.2",
+    "express-rate-limit": "^7.1.5",
+    "express-validator": "^7.0.1",
+    "helmet": "^7.1.0",
+    "jsonwebtoken": "^9.0.2",
+    "mysql2": "^3.14.1",
+    "sequelize": "^6.37.7",
+    "xss-clean": "^0.1.4"
+  },
+  "devDependencies": {
+    "axios": "^1.6.2",
+    "nodemon": "^3.0.2"
+  }
+}

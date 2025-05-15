@@ -1,0 +1,37 @@
+# Projeto N2 - Segurança da Informação
+# Versões: v1.0 (Vulnerável) e v2.0 (Segura)
+
+# Dependências Node.js
+node_modules/
+npm-debug.log
+yarn-error.log
+yarn-debug.log
+package-lock.json
+
+# Configurações de ambiente
+.env
+.env.local
+.env.development
+.env.test
+.env.production
+
+# Logs
+logs
+*.log
+
+# Sistema operacional
+.DS_Store
+Thumbs.db
+
+# Diretórios de IDEs e editores
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# Arquivos temporários
+tmp/
+temp/
+
+# Arquivos específicos de ambiente de desenvolvimento
+.eslintcache
