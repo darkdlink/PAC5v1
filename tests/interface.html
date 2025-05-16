@@ -1,0 +1,554 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Projeto N2 - Interface de Teste</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            padding-top: 20px;
+            padding-bottom: 40px;
+            background-color: #f8f9fa;
+        }
+        .header {
+            background-color: #343a40;
+            color: white;
+            padding: 2rem 0;
+            margin-bottom: 2rem;
+            border-radius: 0.5rem;
+        }
+        .api-section {
+            margin-bottom: 30px;
+            padding: 20px;
+            border-radius: 10px;
+        }
+        .vulnerable-api {
+            background-color: #fff3cd;
+            border-left: 5px solid #ffc107;
+        }
+        .secure-api {
+            background-color: #d1e7dd;
+            border-left: 5px solid #198754;
+        }
+        .card {
+            margin-bottom: 20px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        .nav-tabs {
+            margin-bottom: 15px;
+        }
+        pre {
+            background-color: #f8f9fa;
+            padding: 15px;
+            border-radius: 5px;
+            overflow: auto;
+        }
+        .response-area {
+            min-height: 200px;
+            max-height: 400px;
+            overflow-y: auto;
+            background-color: #f8f9fa;
+            padding: 15px;
+            border-radius: 5px;
+            margin-top: 15px;
+            border: 1px solid #dee2e6;
+        }
+        .btn-api {
+            margin-right: 10px;
+            margin-bottom: 10px;
+        }
+        .btn-vulnerable {
+            background-color: #ffc107;
+            border-color: #ffc107;
+            color: #000;
+        }
+        .btn-secure {
+            background-color: #198754;
+            border-color: #198754;
+            color: #fff;
+        }
+        .payload-examples {
+            background-color: #e9ecef;
+            padding: 10px;
+            border-radius: 5px;
+            margin-bottom: 15px;
+            font-family: monospace;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header text-center">
+            <h1>Projeto N2 - Segurança da Informação</h1>
+            <p class="lead">Demonstração de Vulnerabilidades em Aplicações Web</p>
+        </div>
+
+        <ul class="nav nav-tabs" id="myTab" role="tablist">
+            <li class="nav-item" role="presentation">
+                <button class="nav-link active" id="home-tab" data-bs-toggle="tab" data-bs-target="#home" type="button" role="tab" aria-controls="home" aria-selected="true">Home</button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link" id="sql-tab" data-bs-toggle="tab" data-bs-target="#sql" type="button" role="tab" aria-controls="sql" aria-selected="false">SQL Injection</button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link" id="xss-tab" data-bs-toggle="tab" data-bs-target="#xss" type="button" role="tab" aria-controls="xss" aria-selected="false">XSS</button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link" id="csrf-tab" data-bs-toggle="tab" data-bs-target="#csrf" type="button" role="tab" aria-controls="csrf" aria-selected="false">CSRF</button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link" id="user-management-tab" data-bs-toggle="tab" data-bs-target="#user-management" type="button" role="tab" aria-controls="user-management" aria-selected="false">Gerenciamento de Usuários</button>
+            </li>
+        </ul>
+
+        <div class="tab-content" id="myTabContent">
+            <!-- Conteúdo das abas aqui... -->
+            
+            <!-- Home Tab -->
+            <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+                <!-- Conteúdo da aba Home -->
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="card">
+                            <div class="card-header bg-warning text-dark">
+                                <h5>API Vulnerável (v1)</h5>
+                            </div>
+                            <div class="card-body">
+                                <p>Esta versão da API contém vulnerabilidades intencionais para fins educacionais:</p>
+                                <ul>
+                                    <li>SQL Injection</li>
+                                    <li>Cross-Site Scripting (XSS)</li>
+                                    <li>Cross-Site Request Forgery (CSRF)</li>
+                                </ul>
+                                <p>Endpoint base: <code>http://localhost:3000/api/v1</code></p>
+                                <button class="btn btn-warning" onclick="checkApiStatus('v1')">Verificar Status</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="card">
+                            <div class="card-header bg-success text-white">
+                                <h5>API Segura (v2)</h5>
+                            </div>
+                            <div class="card-body">
+                                <p>Esta versão implementa medidas de segurança para mitigar as vulnerabilidades:</p>
+                                <ul>
+                                    <li>Consultas parametrizadas (evita SQL Injection)</li>
+                                    <li>Sanitização de entrada (evita XSS)</li>
+                                    <li>Tokens CSRF (evita CSRF)</li>
+                                    <li>Autenticação JWT</li>
+                                    <li>Hashing de senhas com bcrypt</li>
+                                </ul>
+                                <p>Endpoint base: <code>http://localhost:3000/api/v2</code></p>
+                                <button class="btn btn-success" onclick="checkApiStatus('v2')">Verificar Status</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card mt-4">
+                    <div class="card-header">
+                        <h5>Resultados</h5>
+                    </div>
+                    <div class="card-body">
+                        <div id="api-status-results" class="response-area">
+                            <p class="text-muted">Os resultados das verificações de status serão exibidos aqui.</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="card mt-4">
+                    <div class="card-header">
+                        <h5>Instruções de Uso</h5>
+                    </div>
+                    <div class="card-body">
+                        <p>Esta interface permite testar as vulnerabilidades e proteções implementadas nas APIs v1 e v2. Para usar:</p>
+                        <ol>
+                            <li>Verifique o status das APIs para garantir que estão rodando</li>
+                            <li>Use as abas para testar diferentes tipos de vulnerabilidades:</li>
+                            <ul>
+                                <li><strong>SQL Injection</strong>: Testa bypass de autenticação com injeção SQL</li>
+                                <li><strong>XSS</strong>: Testa armazenamento e execução de scripts maliciosos</li>
+                                <li><strong>CSRF</strong>: Testa ataques de requisição forjada entre sites</li>
+                                <li><strong>Gerenciamento de Usuários</strong>: Cria e lista usuários, faz login</li>
+                            </ul>
+                        </ol>
+                        <div class="alert alert-info">
+                            <p><strong>Dica:</strong> Para testar completamente, primeiro crie alguns usuários usando a aba "Gerenciamento de Usuários". Em seguida, use os IDs desses usuários para testar os ataques CSRF e XSS.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Conteúdo das outras abas continua... -->
+
+        </div>
+    </div>
+
+    <footer class="mt-5 p-3 text-center bg-light">
+        <p>Projeto N2 - Segurança da Informação - Prof. Claudinei Dias (Ney)</p>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // API URLs
+        const API_BASE_URL_V1 = 'http://localhost:3000/api/v1';
+        const API_BASE_URL_V2 = 'http://localhost:3000/api/v2';
+        
+        // Função para verificar o status da API
+        function checkApiStatus(version) {
+            const apiUrl = version === 'v1' ? API_BASE_URL_V1 : API_BASE_URL_V2;
+            const resultsArea = document.getElementById('api-status-results');
+            
+            resultsArea.innerHTML = `<p>Verificando status da API ${version}...</p>`;
+            
+            fetch(apiUrl)
+                .then(response => {
+                    if (response.ok) {
+                        return response.text().then(text => {
+                            resultsArea.innerHTML += `<p class="text-success">✅ API ${version} está online! Resposta: ${text}</p>`;
+                        });
+                    } else {
+                        return response.text().then(text => {
+                            resultsArea.innerHTML += `<p class="text-danger">❌ API ${version} retornou erro: ${response.status} - ${text}</p>`;
+                        });
+                    }
+                })
+                .catch(error => {
+                    resultsArea.innerHTML += `<p class="text-danger">❌ Erro ao conectar à API ${version}: ${error.message}</p>`;
+                });
+        }
+        
+        // Testar SQL Injection via Login
+        function testSqlInjectionLogin(version) {
+            const apiUrl = version === 'v1' ? `${API_BASE_URL_V1}/login` : `${API_BASE_URL_V2}/auth/login`;
+            const username = document.getElementById(`sql-${version}-username`).value;
+            const password = document.getElementById(`sql-${version}-password`).value;
+            const resultsArea = document.getElementById('sql-injection-results');
+            
+            resultsArea.innerHTML = `<p>Testando SQL Injection na API ${version}...</p>`;
+            
+            fetch(apiUrl, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ username, password })
+            })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        resultsArea.innerHTML += `
+                            <div class="alert alert-${version === 'v1' ? 'danger' : 'success'}">
+                                <h6>${version === 'v1' ? '❌ VULNERABILIDADE DETECTADA!' : '✅ API SEGURA!'}</h6>
+                                <p>${version === 'v1' ? 'O ataque de SQL Injection foi bem-sucedido na API v1!' : 'A API v2 aceitou o login, mas provavelmente com credenciais válidas, não por SQL Injection.'}</p>
+                            </div>
+                            <pre>${JSON.stringify(data, null, 2)}</pre>
+                        `;
+                    } else {
+                        resultsArea.innerHTML += `
+                            <div class="alert alert-${version === 'v1' ? 'success' : 'success'}">
+                                <h6>${version === 'v1' ? '✅ API PROTEGIDA!' : '✅ API SEGURA!'}</h6>
+                                <p>A tentativa de SQL Injection foi bloqueada pela API ${version}.</p>
+                            </div>
+                            <pre>${JSON.stringify(data, null, 2)}</pre>
+                        `;
+                    }
+                })
+                .catch(error => {
+                    resultsArea.innerHTML += `
+                        <div class="alert alert-${version === 'v1' ? 'success' : 'success'}">
+                            <h6>${version === 'v1' ? '✅ API PROTEGIDA!' : '✅ API SEGURA!'}</h6>
+                            <p>A tentativa de SQL Injection resultou em erro na API ${version}: ${error.message}</p>
+                        </div>
+                    `;
+                });
+        }
+        
+        // Testar XSS Attack
+        function testXSSAttack(version) {
+            const apiUrl = version === 'v1' ? `${API_BASE_URL_V1}/users` : `${API_BASE_URL_V2}/auth/register`;
+            const username = document.getElementById(`xss-${version}-username`).value;
+            const email = document.getElementById(`xss-${version}-email`).value;
+            const password = document.getElementById(`xss-${version}-password`).value;
+            const resultsArea = document.getElementById('xss-results');
+            
+            resultsArea.innerHTML = `<p>Testando XSS na API ${version}...</p>`;
+            
+            fetch(apiUrl, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ username, email, password })
+            })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        resultsArea.innerHTML += `
+                            <div class="alert alert-${version === 'v1' ? 'danger' : 'success'}">
+                                <h6>${version === 'v1' ? '❌ VULNERABILIDADE DETECTADA!' : '✅ API SEGURA!'}</h6>
+                                <p>${version === 'v1' ? 'O ataque XSS foi aceito pela API v1!' : 'A API v2 aceitou o registro, mas provavelmente sanitizou o payload XSS.'}</p>
+                            </div>
+                            <pre>${JSON.stringify(data, null, 2)}</pre>
+                        `;
+                        
+                        // Armazenar o nome de usuário para demonstração
+                        localStorage.setItem('xss-username', username);
+                        localStorage.setItem('xss-user-id', data.data.id || '');
+                    } else {
+                        resultsArea.innerHTML += `
+                            <div class="alert alert-${version === 'v1' ? 'success' : 'success'}">
+                                <h6>${version === 'v1' ? '✅ API PROTEGIDA!' : '✅ API SEGURA!'}</h6>
+                                <p>A tentativa de XSS foi bloqueada pela API ${version}.</p>
+                            </div>
+                            <pre>${JSON.stringify(data, null, 2)}</pre>
+                        `;
+                    }
+                })
+                .catch(error => {
+                    resultsArea.innerHTML += `
+                        <div class="alert alert-danger">
+                            <p>Erro ao testar XSS: ${error.message}</p>
+                        </div>
+                    `;
+                });
+        }
+        
+        // Simulação de exibição para demonstrar XSS
+        function simulateXSSDisplay() {
+            const xssUsername = localStorage.getItem('xss-username');
+            const simulationArea = document.getElementById('xss-simulation');
+            
+            if (xssUsername) {
+                // Forma INSEGURA de exibir conteúdo (demonstrando vulnerabilidade)
+                simulationArea.innerHTML = `
+                    <h3>Perfil do Usuário</h3>
+                    <p><strong>Username:</strong> ${xssUsername}</p>
+                    <p><em>Nota: Se o payload XSS foi aceito pela API vulnerável, um alerta JavaScript deve aparecer agora.</em></p>
+                `;
+            } else {
+                simulationArea.innerHTML = `
+                    <p class="text-danger">Nenhum usuário com payload XSS encontrado. Crie um primeiro usando o formulário acima.</p>
+                `;
+            }
+        }
+        
+        // Testar CSRF Attack
+        function testCSRFAttack(version) {
+            const userId = document.getElementById(`csrf-${version}-id`).value;
+            const token = version === 'v2' ? document.getElementById('csrf-v2-token').value : null;
+            const resultsArea = document.getElementById('csrf-results');
+            
+            if (!userId) {
+                resultsArea.innerHTML = `<p class="text-danger">Por favor, insira um ID de usuário válido.</p>`;
+                return;
+            }
+            
+            resultsArea.innerHTML = `<p>Executando ataque CSRF na API ${version}...</p>`;
+            
+            const apiUrl = version === 'v1' ? 
+                `${API_BASE_URL_V1}/users/${userId}` : 
+                `${API_BASE_URL_V2}/users/${userId}`;
+            
+            const headers = {
+                'Content-Type': 'application/json'
+            };
+            
+            if (version === 'v2' && token) {
+                headers['Authorization'] = `Bearer ${token}`;
+                // Observe que NÃO estamos enviando o token CSRF, o que deve fazer a requisição falhar
+            }
+            
+            const dados = {
+                username: "comprometido",
+                email: "hackeado@example.com",
+                password: "senhaHackeada123"
+            };
+            
+            fetch(apiUrl, {
+                method: 'PUT',
+                headers: headers,
+                body: JSON.stringify(dados)
+            })
+                .then(response => {
+                    if (response.ok) {
+                        return response.json().then(data => {
+                            resultsArea.innerHTML += `
+                                <div class="alert alert-${version === 'v1' ? 'danger' : 'danger'}">
+                                    <h6>❌ VULNERABILIDADE DETECTADA!</h6>
+                                    <p>O ataque CSRF foi bem-sucedido na API ${version}! O usuário foi comprometido.</p>
+                                </div>
+                                <pre>${JSON.stringify(data, null, 2)}</pre>
+                            `;
+                        });
+                    } else {
+                        return response.json().then(data => {
+                            resultsArea.innerHTML += `
+                                <div class="alert alert-${version === 'v1' ? 'warning' : 'success'}">
+                                    <h6>${version === 'v1' ? '⚠️ Erro na API' : '✅ Proteção CSRF Funcionando'}</h6>
+                                    <p>${version === 'v1' ? 'A requisição falhou, mas não necessariamente por proteção CSRF.' : 'A API v2 bloqueou o ataque CSRF como esperado.'}</p>
+                                </div>
+                                <pre>${JSON.stringify(data, null, 2)}</pre>
+                            `;
+                        }).catch(() => {
+                            resultsArea.innerHTML += `
+                                <div class="alert alert-${version === 'v1' ? 'warning' : 'success'}">
+                                    <h6>${version === 'v1' ? '⚠️ Erro na API' : '✅ Proteção CSRF Funcionando'}</h6>
+                                    <p>Resposta: ${response.status} ${response.statusText}</p>
+                                </div>
+                            `;
+                        });
+                    }
+                })
+                .catch(error => {
+                    resultsArea.innerHTML += `
+                        <div class="alert alert-danger">
+                            <p>Erro ao executar o ataque CSRF: ${error.message}</p>
+                        </div>
+                    `;
+                });
+        }
+        
+        // Criar usuário
+        function createUser() {
+            const useSecureApi = document.getElementById('api-version-switch').checked;
+            const version = useSecureApi ? 'v2' : 'v1';
+            const apiUrl = useSecureApi ? 
+                `${API_BASE_URL_V2}/auth/register` : 
+                `${API_BASE_URL_V1}/users`;
+            
+            const username = document.getElementById('user-username').value;
+            const email = document.getElementById('user-email').value;
+            const password = document.getElementById('user-password').value;
+            
+            if (!username || !email || !password) {
+                alert('Por favor, preencha todos os campos');
+                return;
+            }
+            
+            fetch(apiUrl, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ username, email, password })
+            })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        alert(`Usuário criado com sucesso na API ${version}!`);
+                        // Limpar campos
+                        document.getElementById('user-username').value = '';
+                        document.getElementById('user-email').value = '';
+                        document.getElementById('user-password').value = '';
+                        // Atualizar lista de usuários
+                        listUsers(version);
+                    } else {
+                        alert(`Erro ao criar usuário: ${data.error || 'Erro desconhecido'}`);
+                    }
+                })
+                .catch(error => {
+                    alert(`Erro ao criar usuário: ${error.message}`);
+                });
+        }
+        
+        // Listar usuários
+        function listUsers(version) {
+            const apiUrl = version === 'v1' ? 
+                `${API_BASE_URL_V1}/users` : 
+                `${API_BASE_URL_V2}/users`;
+            
+            const resultsArea = document.getElementById('users-list');
+            
+            resultsArea.innerHTML = `<p>Buscando usuários da API ${version}...</p>`;
+            
+            fetch(apiUrl)
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        resultsArea.innerHTML = `
+                            <h6>Usuários da API ${version}</h6>
+                            <pre>${JSON.stringify(data, null, 2)}</pre>
+                        `;
+                    } else {
+                        resultsArea.innerHTML = `
+                            <p class="text-danger">Erro ao buscar usuários: ${data.error || 'Erro desconhecido'}</p>
+                        `;
+                    }
+                })
+                .catch(error => {
+                    resultsArea.innerHTML = `
+                        <p class="text-danger">Erro ao buscar usuários: ${error.message}</p>
+                    `;
+                });
+        }
+        
+        // Login de usuário
+        function loginUser() {
+            const useSecureApi = document.getElementById('login-api-version-switch').checked;
+            const version = useSecureApi ? 'v2' : 'v1';
+            const apiUrl = useSecureApi ? 
+                `${API_BASE_URL_V2}/auth/login` : 
+                `${API_BASE_URL_V1}/login`;
+            
+            const username = document.getElementById('login-username').value;
+            const password = document.getElementById('login-password').value;
+            
+            if (!username || !password) {
+                alert('Por favor, preencha todos os campos');
+                return;
+            }
+            
+            const resultsArea = document.getElementById('login-result');
+            
+            resultsArea.innerHTML = `<p>Fazendo login na API ${version}...</p>`;
+            
+            fetch(apiUrl, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ username, password })
+            })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        resultsArea.innerHTML = `
+                            <div class="alert alert-success">
+                                <h6>✅ Login bem-sucedido na API ${version}!</h6>
+                            </div>
+                            <pre>${JSON.stringify(data, null, 2)}</pre>
+                        `;
+                        
+                        // Se for a API segura, salvar o token para testes CSRF
+                        if (version === 'v2' && data.token) {
+                            document.getElementById('csrf-v2-token').value = data.token;
+                        }
+                    } else {
+                        resultsArea.innerHTML = `
+                            <div class="alert alert-danger">
+                                <h6>❌ Erro de login na API ${version}</h6>
+                                <p>${data.error || 'Credenciais inválidas'}</p>
+                            </div>
+                        `;
+                    }
+                })
+                .catch(error => {
+                    resultsArea.innerHTML = `
+                        <div class="alert alert-danger">
+                            <p>Erro ao fazer login: ${error.message}</p>
+                        </div>
+                    `;
+                });
+        }
+        
+        // Ao carregar a página, verificar o status das APIs
+        window.onload = function() {
+            checkApiStatus('v1');
+            setTimeout(() => checkApiStatus('v2'), 1000);
+        };
+    </script>
+</body>
+</html>
